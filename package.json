@@ -4,8 +4,10 @@
   "description": "Recipe App",
   "main": "index.js",
   "scripts": {
-    "start": "node server/index.js",
-    "dev": "nodemon server/index.js"
+    "test": "node server/index.js",
+    "dev": "nodemon server/index.js",
+    "start": "npm run dev"
+
   },
   "author": "Christopher Paonessa",
   "license": "MIT",
