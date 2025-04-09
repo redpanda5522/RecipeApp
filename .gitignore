@@ -136,4 +136,4 @@ dist
 .pnp.*
 
 # Client
-# /client
+/client
