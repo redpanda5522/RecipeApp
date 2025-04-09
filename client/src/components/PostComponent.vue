@@ -20,7 +20,6 @@
         {{
           `${post.createdAt.getDate()}/${post.createdAt.getMonth()}/${post.createdAt.getFullYear()}`
         }}
-        {{ console.log(post.text) }}
         <p class="text">{{ post.text }}</p>
       </div>
     </div>
