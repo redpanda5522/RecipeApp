@@ -4,9 +4,8 @@
   "description": "Recipe App",
   "main": "index.js",
   "scripts": {
-    "test": "node server/index.js",
-    "dev": "nodemon server/index.js",
-    "start": "npm run dev"
+    "start": "node server/index.js",
+    "dev": "nodemon server/index.js"
 
   },
   "author": "Christopher Paonessa",
