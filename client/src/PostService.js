@@ -1,9 +1,9 @@
 import axios from "axios";
 
-const url = 'api/posts/';// "http://localhost:5000/api/posts/";
+const url = "api/posts/";
 
 class PostService {
- // Get Posts
+  // Get Posts
   static async getPosts() {
     try {
       const res = await axios.get(url);
@@ -20,7 +20,7 @@ class PostService {
   //Get Random Posts
   static async getRandomPosts(count) {
     try {
-      const res = await axios.get(url+`random-posts?count=${count}`);
+      const res = await axios.get(`${url}random-posts?count=${count}`);
       const data = res.data;
       return data.map((post) => ({
         ...post,
@@ -31,23 +31,28 @@ class PostService {
     }
   }
 
-    //Get User Posts
-    static async getUserPosts(userId) {
-      try {
-        const res = await axios.get(`${url}user?userId=${userId}`);
-        const data = res.data;
-        return data.map((post) => ({
-          ...post,
-          createdAt: new Date(post.createdAt),
-        }));
-      } catch (err) {
-        return Promise.reject(err);
-      }
+  //Get User Posts
+  static async getUserPosts(userId) {
+    try {
+      const res = await axios.get(`${url}user?userId=${userId}`);
+      const data = res.data;
+      return data.map((post) => ({
+        ...post,
+        createdAt: new Date(post.createdAt),
+      }));
+    } catch (err) {
+      return Promise.reject(err);
     }
+  }
+
+  // Update Post
+  static updatePost(id, updates) {
+    return axios.put(`${url}${id}`, updates);
+  }
 
   // Create Post
   static insertPost(recipe) {
-    return axios.post(url, recipe);
+    return axios.post(url, recipe); // Might need to fix body stuff
   }
 
   // Delete Post
