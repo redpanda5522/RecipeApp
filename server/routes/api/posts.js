@@ -1,7 +1,9 @@
 const express = require('express');
 const mongodb = require('mongodb');
-
+const dotenv = require('dotenv');
 const router = express.Router();
+
+dotenv.config()
 
 // Get Posts
 router.get('/', async (req, res) => {
@@ -13,7 +15,11 @@ router.get('/', async (req, res) => {
 router.post('/', async (req, res) => {
     const posts = await loadPostsCollection();
     await posts.insertOne({
-        text: req.body.text,
+        title: req.body.title,
+        ingredients: req.body.ingredients,
+        steps: req.body.steps,
+        public: req.body.public ?? false,
+        userId: req.body.userId,
         createdAt: new Date(),
     });
     res.status(201).send();
@@ -26,10 +32,39 @@ router.delete('/:id', async (req, res) => {
     res.status(200).send();
 })
 
+// Get Posts of specific user
+router.get('/user', async (req, res) => {
+    const posts = await loadPostsCollection();
+    const userId = req.query.userId;
+    if (!userId) {
+        return res.status(400).send({ message: 'Missing userId query parameter' });
+    }
+    try {
+        const userPosts = await posts.find({ userId: userId }).toArray();
+        res.status(200).send(userPosts);
+    } catch (err) {
+        res.status(500).send({ message: 'Error fetching user posts', error: err });
+    }
+});
+
+// Get Random Public Posts with Custom Count
+router.get('/random-public', async (req, res) => {
+    const posts = await loadPostsCollection();
+    const count = parseInt(req.query.count) || 5; // default to 5 if not provided
+    try {
+        const randomPublicPosts = await posts.aggregate([
+            { $match: { public: true } },
+            { $sample: { size: count } }
+        ]).toArray();
+        res.status(200).send(randomPublicPosts);
+    } catch (err) {
+        res.status(500).send({ message: 'Error fetching random public posts', error: err });
+    }
+});
+
 
 async function loadPostsCollection() {
-    const client = await mongodb.MongoClient.connect
-    ('mongodb+srv://cpaonessa:vA2gP8ZAa2rEmMeG@recipe-storage.l4nuwhn.mongodb.net/?retryWrites=true&w=majority&appName=recipe-storage', {
+    const client = await mongodb.MongoClient.connect(process.env.MONGODB_CONNECT_STRING, {
         useNewURLParser: true
     });
 

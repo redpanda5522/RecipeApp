@@ -1,18 +1,18 @@
 {
   "name": "recipeapp",
   "version": "1.0.0",
-  "description": "Recipe App",
+  "description": "Recipe Wrangler",
   "main": "index.js",
   "scripts": {
     "start": "node server/index.js",
     "dev": "nodemon server/index.js"
-
   },
   "author": "Christopher Paonessa",
   "license": "MIT",
   "dependencies": {
     "body-parser": "^2.2.0",
     "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
     "express": "^5.1.0",
     "mongodb": "^6.15.0"
   },
