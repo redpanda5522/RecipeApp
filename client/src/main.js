@@ -1,28 +1,37 @@
 import { createApp } from "vue";
-import App from "./App.vue";
 import { createVuetify } from "vuetify";
-import "vuetify/styles"; // Make sure to import Vuetify styles
-import router from "./router";
+import "vuetify/styles"; 
+import * as components from 'vuetify/components'
+import * as directives from 'vuetify/directives'
+
 import { createAuth0 } from "@auth0/auth0-vue";
+import App from "./App.vue";
+import router from "./router";
 
 // const dotenv = require("dotenv");
 
 // dotenv.config();
 
 // Vuetify setup
-const vuetify = createVuetify();
+const vuetify = createVuetify({
+  components,
+  directives,
+});
 
 // Create and mount the app
+console.log(process.env)
+console.log(process.env.VUE_APP_TEST)
+console.log(process.env.VITE_TEST)
 createApp(App)
   .use(router)
+  .use(vuetify)
   .use(
     createAuth0({
-      domain: "dev-64n4wmunx57ecqp6.us.auth0.com", //REDO with env vars and new stuff later
-      clientId: "jaAhscT8iIBixqoKiCA62pAb4sVfGg1e",
+      domain: process.env.VUE_APP_AUTHO_DOMAIN, 
+      clientId: process.env.VUE_APP_AUTHO_CLIENTID,
       authorizationParams: {
-        redirect_uri: "http://localhost:8080/callback",
+        redirect_uri: process.env.VUE_APP_AUTHO_REDIRECT,
       },
     })
   )
-  .use(vuetify)
   .mount("#app");
