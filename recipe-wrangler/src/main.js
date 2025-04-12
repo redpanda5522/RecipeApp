@@ -43,10 +43,10 @@ createApp(App)
   .use(vuetify)
   .use(
     createAuth0({
-      domain: process.env.VUE_APP_AUTHO_DOMAIN,
-      clientId: process.env.VUE_APP_AUTHO_CLIENTID,
+      domain: import.meta.env.VITE_AUTHO_DOMAIN,
+      clientId: import.meta.env.VITE_AUTHO_CLIENTID,
       authorizationParams: {
-        redirect_uri: process.env.VUE_APP_AUTHO_REDIRECT,
+        redirect_uri: import.meta.env.VITE_AUTHO_REDIRECT,
       },
     })
   )

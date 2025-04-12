@@ -2,7 +2,7 @@
   <v-container class="fill-height">
     <v-row>
       <v-col>
-        <img max-width="100%" height="100%" src="./../../public/recipe.png" />
+        <img max-width="100%" height="100%" src="./../assets/recipe.png" />
       </v-col>
       <v-col>
         <v-row>
