@@ -1,5 +1,5 @@
 <template>
-    <button class="button__login" @click="handleLogin">Log In</button>
+    <v-btn color="secondary" rounded="lg" size="x-large" @click="handleLogin">Log In</v-btn>
   </template>
   
   <script setup>

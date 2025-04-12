@@ -1,5 +1,5 @@
 <template>
-  <button class="button__sign-up" @click="handleSignUp">Sign Up</button>
+  <v-btn color="primary" rounded="lg" size="x-large" @click="handleSignUp">Sign Up</v-btn>
 </template>
 
 <script setup>
