@@ -20,7 +20,12 @@ class PostService {
   //Get Random Posts
   static async getRandomPosts(count) {
     try {
-      const res = await axios.get(`${url}random-posts?count=${count}`);
+      console.log(`${url}random-posts`);
+      const res = await axios.get(`${url}random-public`, {
+        params: {
+          count: count,
+        },
+      });
       const data = res.data;
       return data.map((post) => ({
         ...post,
