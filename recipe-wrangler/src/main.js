@@ -8,6 +8,7 @@ import { createAuth0 } from "@auth0/auth0-vue";
 import App from "./App.vue";
 import router from "./router";
 import "@mdi/font/css/materialdesignicons.css";
+import { aliases, mdi } from "vuetify/iconsets/mdi";
 
 // const customTheme = {
 //   colors: {
@@ -21,6 +22,13 @@ import "@mdi/font/css/materialdesignicons.css";
 const vuetify = createVuetify({
   components,
   directives,
+  icons: {
+    defaultSet: "mdi",
+    aliases,
+    sets: {
+      mdi,
+    },
+  },
   theme: {
     options: { customProperties: true },
     defaultTheme: "myCustomTheme",
