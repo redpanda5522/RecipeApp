@@ -7,7 +7,7 @@ import * as directives from "vuetify/directives";
 import { createAuth0 } from "@auth0/auth0-vue";
 import App from "./App.vue";
 import router from "./router";
-import '@mdi/font/css/materialdesignicons.css'
+import "@mdi/font/css/materialdesignicons.css";
 
 // const customTheme = {
 //   colors: {
@@ -23,7 +23,7 @@ const vuetify = createVuetify({
   directives,
   theme: {
     options: { customProperties: true },
-    defaultTheme: 'myCustomTheme',
+    defaultTheme: "myCustomTheme",
     themes: {
       myCustomTheme: {
         dark: false,
@@ -32,7 +32,7 @@ const vuetify = createVuetify({
           primary: "#FA5F2F",
           secondary: "#76C177",
         },
-      } 
+      },
     },
   },
 });
@@ -48,7 +48,8 @@ createApp(App)
       authorizationParams: {
         redirect_uri: import.meta.env.VITE_AUTHO_REDIRECT,
       },
+      useRefreshTokens: true,
+      cacheLocation: "localstorage",
     })
   )
   .mount("#app");
-  

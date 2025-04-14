@@ -28,6 +28,10 @@
               label="Title"
               variant="outlined"
               required
+              :error="!title && attemptedSubmit"
+              :error-messages="
+                !title && attemptedSubmit ? ['Title is required'] : []
+              "
             ></v-text-field>
           </v-row>
           <v-row>
@@ -37,6 +41,12 @@
               variant="outlined"
               required
               rows="2"
+              :error="!ingredients && attemptedSubmit"
+              :error-messages="
+                !ingredients && attemptedSubmit
+                  ? ['Ingredients are required']
+                  : []
+              "
             ></v-textarea>
           </v-row>
           <v-row>
@@ -46,6 +56,12 @@
               variant="outlined"
               required
               auto-grow
+              :error="!instructions && attemptedSubmit"
+              :error-messages="
+                !instructions && attemptedSubmit
+                  ? ['Instructions are required']
+                  : []
+              "
             ></v-textarea>
           </v-row>
           <v-row>
@@ -57,6 +73,10 @@
                 :min="0"
                 :step="5"
                 label="Prep Time (min)"
+                :error="prep_time === 0 && attemptedSubmit"
+                :error-messages="
+                  prep_time === 0 && attemptedSubmit ? ['Enter prep time'] : []
+                "
               ></v-number-input> </v-col
             ><v-col>
               <v-radio-group v-model="public_post" inline>
@@ -82,7 +102,7 @@
             color="primary"
             text="Save"
             variant="tonal"
-            @click="(!edit ? addRecipe() : updateRecipe())"
+            @click="!edit ? addRecipe() : updateRecipe()"
           ></v-btn>
         </v-card-actions>
       </v-card>
@@ -95,19 +115,19 @@ import { shallowRef, ref } from "vue";
 import { useAuth0 } from "@auth0/auth0-vue";
 import PostService from "../PostService";
 
-const {edit, currentRecipe, reload} = defineProps({
+const { edit, currentRecipe, reload } = defineProps({
   edit: {
     type: Boolean,
-    default: false
+    default: false,
   },
   currentRecipe: {
     type: Object,
-    default: () => ({})
+    default: () => ({}),
   },
   reload: {
     type: Function,
-    required: true
-  }
+    required: true,
+  },
 });
 
 let dialog = shallowRef(false);
@@ -118,28 +138,20 @@ const public_post = ref(currentRecipe.public || false);
 const prep_time = ref(currentRecipe.prepTime || 0);
 const { user } = useAuth0();
 const error = ref("");
+const attemptedSubmit = ref(false);
+
+function isFormValid() {
+  return (
+    title.value.trim() &&
+    ingredients.value.trim() &&
+    instructions.value.trim() &&
+    prep_time.value > 0
+  );
+}
 
 const addRecipe = async () => {
-  try {
-    const recipe = {
-      title: title.value,
-      ingredients: ingredients.value,
-      steps: instructions.value,
-      prepTime: prep_time.value,
-      userId: user.value.name,
-      public: public_post.value
-    }
-    await PostService.insertPost(recipe);
-    reload();
-    dialog.value = false
-  } catch (err) {
-    error.value = err.message;
-    console.error("Error adding recipe:", err);
-    dialog.value = false
-  }
-};
-
-const updateRecipe = async () => {
+  attemptedSubmit.value = true;
+  if (isFormValid()) {
     try {
       const recipe = {
         title: title.value,
@@ -147,15 +159,39 @@ const updateRecipe = async () => {
         steps: instructions.value,
         prepTime: prep_time.value,
         userId: user.value.name,
-        public: public_post.value
-      }
-      await PostService.updatePost(currentRecipe._id, recipe);
+        public: public_post.value,
+      };
+      await PostService.insertPost(recipe);
       reload();
-      dialog.value = false
+      dialog.value = false;
     } catch (err) {
       error.value = err.message;
       console.error("Error adding recipe:", err);
-      dialog.value = false
+      dialog.value = false;
     }
-  };
-  </script>
+  }
+};
+
+const updateRecipe = async () => {
+  attemptedSubmit.value = true;
+  if (isFormValid()) {
+    try {
+      const recipe = {
+        title: title.value,
+        ingredients: ingredients.value,
+        steps: instructions.value,
+        prepTime: prep_time.value,
+        userId: user.value.name,
+        public: public_post.value,
+      };
+      await PostService.updatePost(currentRecipe._id, recipe);
+      reload();
+      dialog.value = false;
+    } catch (err) {
+      error.value = err.message;
+      console.error("Error adding recipe:", err);
+      dialog.value = false;
+    }
+  }
+};
+</script>
