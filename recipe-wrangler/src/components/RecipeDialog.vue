@@ -161,9 +161,9 @@ const addRecipe = async () => {
         userId: user.value.name,
         public: public_post.value,
       };
-      await PostService.insertPost(recipe);
-      reload();
       dialog.value = false;
+      await PostService.insertPost(recipe);
+      reload();  
     } catch (err) {
       error.value = err.message;
       console.error("Error adding recipe:", err);
@@ -184,9 +184,9 @@ const updateRecipe = async () => {
         userId: user.value.name,
         public: public_post.value,
       };
+      dialog.value = false;
       await PostService.updatePost(currentRecipe._id, recipe);
       reload();
-      dialog.value = false;
     } catch (err) {
       error.value = err.message;
       console.error("Error adding recipe:", err);

@@ -86,9 +86,9 @@ router.put("/:id", async (req, res) => {
 });
 
 async function loadPostsCollection() {
-  const client = await mongodb.MongoClient.connect(
-    process.env.MONGODB_CONNECT_STRING,
-  );
+  const client = await mongodb.MongoClient.connect("mongodb+srv://cpaonessa:zgHDwfk9CowHx2xP@recipe-storage.l4nuwhn.mongodb.net/?retryWrites=true&w=majority&appName=recipe-storage");
+  //   process.env.MONGODB_CONNECT_STRING,
+  // );
 
   return client.db("recipe-storage").collection("posts");
 }
