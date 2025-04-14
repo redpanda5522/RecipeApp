@@ -18,6 +18,7 @@ router.post("/", async (req, res) => {
     title: req.body.title,
     ingredients: req.body.ingredients,
     steps: req.body.steps,
+    prepTime: req.body.prepTime ?? 0,
     public: req.body.public ?? false,
     userId: req.body.userId,
     createdAt: new Date(),
@@ -87,9 +88,6 @@ router.put("/:id", async (req, res) => {
 async function loadPostsCollection() {
   const client = await mongodb.MongoClient.connect(
     process.env.MONGODB_CONNECT_STRING,
-    {
-      useNewURLParser: true,
-    }
   );
 
   return client.db("recipe-storage").collection("posts");
