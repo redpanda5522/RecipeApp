@@ -1,6 +1,7 @@
  const express = require('express');
  const bodyParser = require('body-parser');
  const cors = require('cors');
+ const path = require('path');
 
  const app = express();
 
@@ -15,7 +16,7 @@ app.use('/api/posts', posts);
 // Handle production
 if (process.env.NODE_ENV === 'production'){
     // Static folder
-    app.use(express.static(__dirname + '/public/'));
+    app.use(express.static(path.join(__dirname, 'public')));
 
     // Handle SPA
     app.get(/.*/, (req, res) => res.sendFile(__dirname + '/public/index.html'));
