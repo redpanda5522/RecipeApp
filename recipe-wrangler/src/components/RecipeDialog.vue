@@ -1,6 +1,6 @@
 <template>
   <div class="pa-4 text-center">
-    <v-dialog v-model="dialog" max-width="600">
+    <v-dialog v-model="dialog" max-width="600" persistent>
       <template v-slot:activator="{ props: activatorProps }">
         <v-btn
           class="text-none font-weight-regular"
@@ -96,7 +96,7 @@
         <v-card-actions>
           <v-spacer></v-spacer>
 
-          <v-btn text="Close" variant="plain" @click="dialog = false"></v-btn>
+          <v-btn text="Close" variant="plain" @click="closeDialog()"></v-btn>
 
           <v-btn
             color="primary"
@@ -149,6 +149,15 @@ function isFormValid() {
   );
 }
 
+function closeDialog() {
+  dialog.value = false;
+  title.value = currentRecipe.title || "";
+  ingredients.value = currentRecipe.ingredients || "";
+  instructions.value = currentRecipe.steps || "";
+  public_post.value = currentRecipe.public || false;
+  prep_time.value = currentRecipe.prepTime || 0;
+}
+
 const addRecipe = async () => {
   attemptedSubmit.value = true;
   if (isFormValid()) {
@@ -163,7 +172,7 @@ const addRecipe = async () => {
       };
       dialog.value = false;
       await PostService.insertPost(recipe);
-      reload();  
+      reload();
     } catch (err) {
       error.value = err.message;
       console.error("Error adding recipe:", err);

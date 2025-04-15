@@ -2,49 +2,69 @@
   <div class="fill-height d-flex flex-column">
     <v-layout>
       <!-- Main App Bar -->
-      <v-app-bar color="primary">
+      <v-app-bar color="deep-orange accent-4" dark elevation="4" class="px-4">
+        <!-- Nav Icon -->
         <template v-slot:prepend>
-          <v-app-bar-nav-icon color="white"></v-app-bar-nav-icon>
+          <v-app-bar-nav-icon class="hover-opacity" />
         </template>
 
-        <v-app-bar-title>
-          <h2 class="text-white">Recipe Wrangler</h2>
+        <!-- Logo + Title -->
+        <v-app-bar-title class="d-flex align-center">
+          <span class="text-h5 font-weight-bold">Recipe Wrangler</span>
         </v-app-bar-title>
 
-        <UserFeedButton />
+        <!-- Spacer + Buttons -->
+        <v-spacer />
+
+        <UserFeedButton class="mr-2" />
         <LogoutButton />
       </v-app-bar>
 
-      <!-- Filter Bar (as a sheet) -->
+      <!-- Filter Bar -->
       <v-main>
-        <v-sheet color="secondary" height="50" class="d-flex align-center px-4">
-          <v-app-bar-title class="text-white text-subtitle-1">
+        <v-sheet
+          color="green darken-2"
+          height="60"
+          class="d-flex align-center justify-space-between px-6 py-2 elevation-2 rounded-b"
+        >
+          <!-- Label -->
+          <div
+            class="d-flex align-center text-white text-subtitle-1 font-weight-medium"
+          >
+            <v-icon class="mr-2">mdi-fire</v-icon>
             Popular Recipes
-          </v-app-bar-title>
+          </div>
 
-          <v-spacer />
-
-          <v-select
-            v-model="selectedNumber"
-            @update:modelValue="updateFeed"
-            :items="[...Array(10).keys()].map((n) => n + 1)"
-            variant="outlined"
-            label="Count"
-            hide-details
-            density="compact"
-            style="max-width: 100px"
-          />
+          <!-- Count Selector -->
+          <div class="d-flex align-center">
+            <span class="text-white mr-2">Recipes on Page:</span>
+            <v-select
+              v-model="selectedNumber"
+              @update:modelValue="updateFeed"
+              :items="[...Array(10).keys()].map((n) => n + 1)"
+              variant="outlined"
+              hide-details
+              density="comfortable"
+              class="rounded-sm"
+              style="max-width: 100px"
+            />
+          </div>
         </v-sheet>
 
         <!-- Content -->
         <v-container fluid>
           <v-row dense>
             <v-col v-for="post in posts" :key="post._id" cols="12">
-              <v-card :title="post.title" :subtitle="post.ingredients">
+              <v-card
+                :title="post.title"
+                :subtitle="`Ingredients: ${post.ingredients}`"
+                elevation="3"
+                class="rounded-lg"
+              >
                 <template #text>
                   <p>{{ post.steps }}</p>
                   <small class="text-grey">
-                    {{ new Date(post.createdAt).toLocaleDateString() }}
+                    {{ "Prep Time: " + post.prepTime + " minutes" }}
                   </small>
                 </template>
               </v-card>

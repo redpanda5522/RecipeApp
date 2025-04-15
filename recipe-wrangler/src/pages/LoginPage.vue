@@ -1,15 +1,20 @@
 <template>
   <v-container class="fill-height">
     <v-row>
-      <v-col>
+      <v-col cols="auto">
         <img max-width="100%" height="100%" src="./../assets/recipe.png" />
       </v-col>
-      <v-col>
+      <v-spacer cols="2"></v-spacer>
+      <v-col cols="6">
         <v-row>
-          <v-col><h1 style="font-size: 84px">Recipe Wrangler</h1> </v-col>
+          <h1 style="font-size: 84px">Recipe</h1>
         </v-row>
         <v-row>
-          <v-col><login-button /> <signup-button /></v-col>
+          <h1 style="font-size: 84px">Wrangler</h1>
+        </v-row>
+        <v-row>
+          <v-col cols="auto"><login-button /> </v-col>
+          <v-col cols="auto"><signup-button /> </v-col>
         </v-row>
       </v-col>
     </v-row>
@@ -23,6 +28,6 @@ import SignupButton from "@/components/buttons/SignupButton.vue";
 
 <style scoped>
 body {
-    background-color: #ffdfd5;
-};
+  background-color: #ffdfd5;
+}
 </style>
