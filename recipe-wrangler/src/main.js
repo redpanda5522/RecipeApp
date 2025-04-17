@@ -45,9 +45,9 @@ const vuetify = createVuetify({
       myCustomTheme: {
         dark: false,
         colors: {
-          background: "#fcddbc",
-          primary: "#2c597c",
-          secondary: "#3b768f",
+          background: "#fae6c9",
+          primary: "#337790",
+          secondary: "#99c7d9",
         },
       },
     },

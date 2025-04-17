@@ -1,13 +1,13 @@
 .primary_background {
-  background-color: #ee6055;
+  background-color: #337790;
 }
 
 .secondary_background {
-  background-color: #60d394;
+  background-color: #02c3bd;
 }
 
 .primary_background_light {
-  background-color: #ff9b85;
+  background-color: #99c7d9;
 }
 
 .secondary_background_light {
@@ -15,9 +15,5 @@
 }
 
 .primary_text {
-  color: red;
-}
-
-.secondary_background {
-  color: blue;
+  color: black;
 }

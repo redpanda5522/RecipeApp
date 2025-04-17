@@ -3,7 +3,7 @@
     <v-layout>
       <!-- Main App Bar -->
       <!-- Main App Bar -->
-      <v-app-bar style=" background-color: #ee6055"  elevation="4" class="px-4 primary_background">
+      <v-app-bar color="primary"  elevation="4" class="px-4 primary_background">
         <!-- Nav Icon -->
         <template v-slot:prepend>
           <v-app-bar-nav-icon class="hover-opacity" />
@@ -23,16 +23,15 @@
       <!-- Filter Bar -->
       <v-main>
         <v-sheet
-          style="background-color: #60d394"
           height="60"
-          class="d-flex align-center justify-space-between px-6 py-2 elevation-2 rounded-b"
+          class="d-flex align-center justify-space-between px-6 py-2 elevation-2 rounded-b primary_background_light"
         >
           <!-- Label + Add Button -->
           <div
             class="d-flex align-center text-subtitle-1 font-weight-medium"
           >
-            <v-icon class="mr-2">mdi-book-open-variant</v-icon>
-            My Recipes
+            <v-icon class="mr-4">mdi-book-open-variant-outline</v-icon>
+            <h4>My Recipes</h4>
           </div>
           <div class="d-flex align-center">
             <RecipeDialog class="ml-4" :reload="updateFeed" />
@@ -111,7 +110,7 @@
                     >
                       <v-sheet color="#f9f9f9" class="pa-3 rounded mb-3">
                         <div class="d-flex align-center mb-2">
-                          <v-icon class="mr-2" style="color: #60d394"
+                          <v-icon class="mr-2" style="color: #02c3bd"
                             >mdi-silverware</v-icon
                           >
                           <span class="text-subtitle-1 font-weight-bold"
@@ -123,9 +122,9 @@
 
                       <v-divider class="my-2" />
 
-                      <v-sheet color="#fffbe6" class="pa-3 rounded">
+                      <v-sheet color="#f9f9f9" class="pa-3 rounded">
                         <div class="d-flex align-center mb-2">
-                          <v-icon class="mr-2" style="color:#ee6055"
+                          <v-icon class="mr-2" style="color:#02c3bd"
                             >mdi-format-list-bulleted</v-icon
                           >
                           <span class="text-subtitle-1 font-weight-bold"

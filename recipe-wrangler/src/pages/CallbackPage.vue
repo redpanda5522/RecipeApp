@@ -1,5 +1,5 @@
 <template>
-  <div>
-    <h1>CallBack</h1>
+  <div class="d-flex align-center justify-center fill-height">
+    <v-progress-circular indeterminate color="primary" size="40" />
   </div>
 </template>

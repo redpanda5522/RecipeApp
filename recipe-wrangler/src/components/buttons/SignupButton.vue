@@ -1,5 +1,11 @@
 <template>
-  <v-btn color="primary" rounded="lg" size="x-large" @click="handleSignUp">Sign Up</v-btn>
+  <v-btn
+    class="secondary_background font-weight-bold text-white"
+    rounded="lg"
+    size="x-large"
+    @click="handleSignUp"
+    ><v-icon class="mr-2">mdi-draw</v-icon>Sign Up</v-btn
+  >
 </template>
 
 <script setup>

@@ -25,9 +25,3 @@
 import LoginButton from "@/components/buttons/LoginButton.vue";
 import SignupButton from "@/components/buttons/SignupButton.vue";
 </script>
-
-<style scoped>
-body {
-  background-color: #ffdfd5;
-}
-</style>

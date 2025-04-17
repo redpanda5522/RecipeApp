@@ -18,7 +18,7 @@ export default {
 }
 
 .secondary_background {
-  background-color: #60d394;
+  background-color: #3b768f;
 }
 
 .primary_background_light {

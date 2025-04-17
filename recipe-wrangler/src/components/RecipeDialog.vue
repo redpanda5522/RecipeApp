@@ -3,26 +3,41 @@
     <v-dialog v-model="dialog" max-width="600" persistent>
       <template v-slot:activator="{ props: activatorProps }">
         <v-btn
-          class="text-none font-weight-regular"
-          prepend-icon="mdi-note-plus"
+          class="text-none font-weight-regular text-black"
+          prepend-icon="mdi-note-plus-outline"
           text="New Recipe"
-          variant="tonal"
+          :elevation="3"
           v-bind="activatorProps"
           v-if="!edit"
-          style="background-color:#ee6055"
+          color="#81d8a8"
+          rounded="lg"
         ></v-btn>
         <v-btn
           class="text-none font-weight-regular"
           prepend-icon="mdi-square-edit-outline"
           text="Edit"
-          variant="tonal"
           v-bind="activatorProps"
           v-if="edit"
-          style="background-color: #81d8a8;"
+          style="background-color: #81d8a8"
+          rounded="md"
         ></v-btn>
       </template>
 
-      <v-card prepend-icon="mdi-note-plus" title="New Recipe">
+      <v-card
+        elevation="4"
+        class="rounded-lg"
+        style="border-top: 6px solid #b2dfdb"
+      >
+        <v-card-title class="d-flex align-center pb-2">
+          <div v-if="!edit">
+            <v-icon class="mr-2">mdi-note-plus-outline</v-icon>
+            <span class="text-h6 font-weight-medium">New Recipe</span>
+          </div>
+          <div v-if="edit">
+            <v-icon class="mr-2">mdi-square-edit-outline</v-icon>
+            <span class="text-h6 font-weight-medium">Edit Recipe</span>
+          </div>
+        </v-card-title>
         <v-card-text>
           <v-row>
             <v-text-field
@@ -77,7 +92,7 @@
                 label="Prep Time (min)"
                 :error="prep_time === 0 && attemptedSubmit"
                 :error-messages="
-                  prep_time === 0 && attemptedSubmit ? ['Enter prep time'] : []
+                  prep_time === 0 && attemptedSubmit ? ['Prep Time is required'] : []
                 "
               ></v-number-input> </v-col
             ><v-col>
@@ -94,14 +109,13 @@
         <v-card-actions>
           <v-spacer></v-spacer>
 
-          <v-btn text="Close" variant="plain" @click="closeDialog()"></v-btn>
+          <v-btn variant="tonal" color="#ff9b85" @click="closeDialog()"><v-icon class="mr-2">mdi-close</v-icon>Close</v-btn>
 
           <v-btn
-            color="primary"
-            text="Save"
+            color="#81d8a8"
             variant="tonal"
             @click="!edit ? addRecipe() : updateRecipe()"
-          ></v-btn>
+          ><v-icon class="mr-2">mdi-check</v-icon>{{!edit ? "Add" : "Update"}}</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
