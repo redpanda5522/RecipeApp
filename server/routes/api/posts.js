@@ -1,14 +1,16 @@
 const express = require("express");
-const mongodb = require("mongodb");
-const dotenv = require("dotenv");
+const connectToDatabase = require("./../../mongoclient");
 const router = express.Router();
+const dotenv = require("dotenv");
+const mongodb = require("mongodb");
 
 dotenv.config();
 
 // Get Posts
 router.get("/", async (req, res) => {
-  const posts = await loadPostsCollection();
-  res.send(await posts.find({}).toArray());
+  const db = await connectToDatabase();
+  const posts = await db.collection("posts").find({}).toArray();
+  res.send(posts);
 });
 
 // Add Posts
@@ -86,11 +88,8 @@ router.put("/:id", async (req, res) => {
 });
 
 async function loadPostsCollection() {
-  const client = await mongodb.MongoClient.connect("mongodb+srv://cpaonessa:zgHDwfk9CowHx2xP@recipe-storage.l4nuwhn.mongodb.net/?retryWrites=true&w=majority&appName=recipe-storage");
-  //   process.env.MONGODB_CONNECT_STRING,
-  // );
-
-  return client.db("recipe-storage").collection("posts");
+  const db = await connectToDatabase();
+  return db.collection("posts");
 }
 
 module.exports = router;
