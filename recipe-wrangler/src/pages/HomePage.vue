@@ -2,7 +2,7 @@
   <div class="fill-height d-flex flex-column">
     <v-layout>
       <!-- Main App Bar -->
-      <v-app-bar color="deep-orange accent-4" dark elevation="4" class="px-4">
+      <v-app-bar color="primary" dark elevation="4" class="px-4">
         <!-- Nav Icon -->
         <template v-slot:prepend>
           <v-app-bar-nav-icon class="hover-opacity" />
@@ -23,7 +23,7 @@
       <!-- Filter Bar -->
       <v-main>
         <v-sheet
-          color="green darken-2"
+          color="#a1c2d7"
           height="60"
           class="d-flex align-center justify-space-between px-6 py-2 elevation-2 rounded-b"
         >
@@ -32,12 +32,12 @@
             class="d-flex align-center text-white text-subtitle-1 font-weight-medium"
           >
             <v-icon class="mr-2">mdi-fire</v-icon>
-            Popular Recipes
+            <span class="text-black"><h4>Popular Recipes</h4></span>
           </div>
 
           <!-- Count Selector -->
           <div class="d-flex align-center">
-            <span class="text-white mr-2">Recipes on Page:</span>
+            <span class="text-black mr-2">Recipes on Page:</span>
             <v-select
               v-model="selectedNumber"
               @update:modelValue="updateFeed"

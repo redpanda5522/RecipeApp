@@ -9,6 +9,7 @@ import App from "./App.vue";
 import router from "./router";
 import '@mdi/font/css/materialdesignicons.min.css';
 import { aliases, mdi } from "vuetify/iconsets/mdi";
+import "./style.css"
 
 // TODO
 // - Frontend appearance
@@ -44,9 +45,9 @@ const vuetify = createVuetify({
       myCustomTheme: {
         dark: false,
         colors: {
-          background: "#ffdfd5",
-          primary: "#FA5F2F",
-          secondary: "#76C177",
+          background: "#fcddbc",
+          primary: "#2c597c",
+          secondary: "#3b768f",
         },
       },
     },

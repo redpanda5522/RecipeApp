@@ -1,5 +1,5 @@
 <template>
-    <v-btn style="background-color: red" rounded="lg" :onclick="deleteRecipe">Delete</v-btn>
+    <v-btn style="background-color: #ff9b85" rounded="lg" :onclick="deleteRecipe" class="text-none"><v-icon class="mr-2">mdi-delete</v-icon>Delete</v-btn>
 </template>
 
 <script setup>

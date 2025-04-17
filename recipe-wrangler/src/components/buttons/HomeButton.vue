@@ -1,4 +1,3 @@
 <template>
-    <v-btn style="background-color: #76C177" rounded="lg"  to='/home'>Home</v-btn>
+    <v-btn class="text-none" style="background-color: #60d394" rounded="lg"  to='/home'><v-icon class="mr-2">mdi-home</v-icon> Home</v-btn>
 </template>
-  

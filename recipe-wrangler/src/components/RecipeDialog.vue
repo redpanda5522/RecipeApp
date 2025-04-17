@@ -4,23 +4,25 @@
       <template v-slot:activator="{ props: activatorProps }">
         <v-btn
           class="text-none font-weight-regular"
-          prepend-icon="mdi-account"
+          prepend-icon="mdi-note-plus"
           text="New Recipe"
           variant="tonal"
           v-bind="activatorProps"
           v-if="!edit"
+          style="background-color:#ee6055"
         ></v-btn>
         <v-btn
           class="text-none font-weight-regular"
-          prepend-icon="mdi-account"
+          prepend-icon="mdi-square-edit-outline"
           text="Edit"
           variant="tonal"
           v-bind="activatorProps"
           v-if="edit"
+          style="background-color: #81d8a8;"
         ></v-btn>
       </template>
 
-      <v-card prepend-icon="mdi-account" title="New Recipe">
+      <v-card prepend-icon="mdi-note-plus" title="New Recipe">
         <v-card-text>
           <v-row>
             <v-text-field
@@ -85,10 +87,6 @@
               </v-radio-group>
             </v-col>
           </v-row>
-
-          <small class="text-caption text-medium-emphasis"
-            >*indicates required field</small
-          >
         </v-card-text>
 
         <v-divider></v-divider>
@@ -156,6 +154,7 @@ function closeDialog() {
   instructions.value = currentRecipe.steps || "";
   public_post.value = currentRecipe.public || false;
   prep_time.value = currentRecipe.prepTime || 0;
+  attemptedSubmit.value = false;
 }
 
 const addRecipe = async () => {
@@ -170,13 +169,13 @@ const addRecipe = async () => {
         userId: user.value.name,
         public: public_post.value,
       };
-      dialog.value = false;
+      closeDialog();
       await PostService.insertPost(recipe);
       reload();
     } catch (err) {
       error.value = err.message;
       console.error("Error adding recipe:", err);
-      dialog.value = false;
+      closeDialog();
     }
   }
 };
@@ -193,13 +192,13 @@ const updateRecipe = async () => {
         userId: user.value.name,
         public: public_post.value,
       };
-      dialog.value = false;
+      closeDialog();
       await PostService.updatePost(currentRecipe._id, recipe);
       reload();
     } catch (err) {
       error.value = err.message;
       console.error("Error adding recipe:", err);
-      dialog.value = false;
+      closeDialog();
     }
   }
 };

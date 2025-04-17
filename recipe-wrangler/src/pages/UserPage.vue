@@ -3,7 +3,7 @@
     <v-layout>
       <!-- Main App Bar -->
       <!-- Main App Bar -->
-      <v-app-bar color="deep-orange accent-4" dark elevation="4" class="px-4">
+      <v-app-bar style=" background-color: #ee6055"  elevation="4" class="px-4 primary_background">
         <!-- Nav Icon -->
         <template v-slot:prepend>
           <v-app-bar-nav-icon class="hover-opacity" />
@@ -23,13 +23,13 @@
       <!-- Filter Bar -->
       <v-main>
         <v-sheet
-          color="green darken-2"
+          style="background-color: #60d394"
           height="60"
           class="d-flex align-center justify-space-between px-6 py-2 elevation-2 rounded-b"
         >
           <!-- Label + Add Button -->
           <div
-            class="d-flex align-center text-white text-subtitle-1 font-weight-medium"
+            class="d-flex align-center text-subtitle-1 font-weight-medium"
           >
             <v-icon class="mr-2">mdi-book-open-variant</v-icon>
             My Recipes
@@ -51,25 +51,91 @@
             <v-row dense>
               <v-col v-for="post in posts" :key="post._id" cols="12">
                 <v-card
-                  :title="post.title"
-                  :subtitle="`Ingredients: ${post.ingredients}`"
                   elevation="3"
                   class="rounded-lg"
+                  @click="toggleExpand(post._id)"
                 >
-                  <template #text>
-                    <p>{{ post.steps }}</p>
-                    <small class="text-grey">
-                      {{ new Date(post.createdAt).toLocaleDateString() }}
+                  <!-- Title + Expand Icon -->
+                  <v-card-title
+                    class="d-flex justify-space-between align-center"
+                  >
+                    <h2 class="text-h6 font-weight-bold mb-0">
+                      {{ post.title }}
+                    </h2>
+                    <v-icon :class="{ rotate: expandedRecipeId === post._id }">
+                      {{
+                        expandedRecipeId === post._id
+                          ? "mdi-chevron-up"
+                          : "mdi-chevron-down"
+                      }}
+                    </v-icon>
+                  </v-card-title>
+
+                  <!-- Meta row: Prep Time + Buttons -->
+                  <div
+                    class="d-flex justify-space-between align-center px-4 pb-2"
+                    @click.stop
+                  >
+                    <small class="text-grey font-italic">
+                      Prep Time: {{ post.prepTime }} minutes
                     </small>
-                  </template>
-                  <v-card-actions>
-                    <RecipeDialog
-                    :edit="true"
-                    :current-recipe="post"
-                    :reload="updateFeed"
-                  />
-                  <DeleteButton :reload="updateFeed" :recipe-id="post._id" />
-                  </v-card-actions>
+                    <div class="d-flex align-center">
+                      <RecipeDialog
+                        :edit="true"
+                        :current-recipe="post"
+                        :reload="updateFeed"
+                        v-slot="{ openDialog }"
+                      >
+                        <v-btn
+                          color="primary"
+                          variant="text"
+                          size="small"
+                          class="mr-1"
+                          @click="openDialog"
+                        >
+                          <v-icon start size="18">mdi-pencil</v-icon>
+                          Edit
+                        </v-btn>
+                      </RecipeDialog>
+
+                      <DeleteButton :reload="updateFeed" :recipe-id="post._id" />
+
+                    </div>
+                  </div>
+
+                  <!-- Expandable Content -->
+                  <v-expand-transition>
+                    <div
+                      v-show="expandedRecipeId === post._id"
+                      class="px-4 pb-4"
+                    >
+                      <v-sheet color="#f9f9f9" class="pa-3 rounded mb-3">
+                        <div class="d-flex align-center mb-2">
+                          <v-icon class="mr-2" style="color: #60d394"
+                            >mdi-silverware</v-icon
+                          >
+                          <span class="text-subtitle-1 font-weight-bold"
+                            >Ingredients</span
+                          >
+                        </div>
+                        <p class="mb-0">{{ post.ingredients }}</p>
+                      </v-sheet>
+
+                      <v-divider class="my-2" />
+
+                      <v-sheet color="#fffbe6" class="pa-3 rounded">
+                        <div class="d-flex align-center mb-2">
+                          <v-icon class="mr-2" style="color:#ee6055"
+                            >mdi-format-list-bulleted</v-icon
+                          >
+                          <span class="text-subtitle-1 font-weight-bold"
+                            >Instructions</span
+                          >
+                        </div>
+                        <p class="mb-0">{{ post.steps }}</p>
+                      </v-sheet>
+                    </div>
+                  </v-expand-transition>
                 </v-card>
               </v-col>
             </v-row>
@@ -93,6 +159,12 @@ const { user } = useAuth0();
 const posts = ref([]);
 const selectedNumber = ref(5);
 const error = ref("");
+const expandedRecipeId = ref(null);
+
+const toggleExpand = (id) => {
+  expandedRecipeId.value = expandedRecipeId.value === id ? null : id;
+};
+
 const updateFeed = async () => {
   try {
     posts.value = await PostService.getUserPosts(user.value.name);
@@ -104,3 +176,9 @@ const updateFeed = async () => {
 
 onMounted(updateFeed);
 </script>
+
+<style scoped>
+.v-card {
+  cursor: pointer;
+}
+</style>
