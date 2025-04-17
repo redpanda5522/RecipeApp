@@ -92,7 +92,9 @@
                 label="Prep Time (min)"
                 :error="prep_time === 0 && attemptedSubmit"
                 :error-messages="
-                  prep_time === 0 && attemptedSubmit ? ['Prep Time is required'] : []
+                  prep_time === 0 && attemptedSubmit
+                    ? ['Prep Time is required']
+                    : []
                 "
               ></v-number-input> </v-col
             ><v-col>
@@ -109,16 +111,32 @@
         <v-card-actions>
           <v-spacer></v-spacer>
 
-          <v-btn variant="tonal" color="#ff9b85" @click="closeDialog()"><v-icon class="mr-2">mdi-close</v-icon>Close</v-btn>
+          <v-btn variant="tonal" color="#ff9b85" @click="closeDialog()"
+            ><v-icon class="mr-2">mdi-close</v-icon>Close</v-btn
+          >
 
           <v-btn
             color="#81d8a8"
             variant="tonal"
             @click="!edit ? addRecipe() : updateRecipe()"
-          ><v-icon class="mr-2">mdi-check</v-icon>{{!edit ? "Add" : "Update"}}</v-btn>
+            ><v-icon class="mr-2">mdi-check</v-icon
+            >{{ !edit ? "Add" : "Update" }}</v-btn
+          >
         </v-card-actions>
       </v-card>
     </v-dialog>
+
+    <v-snackbar
+      v-model="showSnackbar"
+      location="bottom right"
+      :timeout="3000"
+      color="success"
+      rounded="lg"
+      class="text-center"
+    >
+      <v-icon class="mr-2">mdi-check</v-icon>
+      <span>{{ snackbarMessage }}</span>
+    </v-snackbar>
   </div>
 </template>
 
@@ -126,6 +144,7 @@
 import { shallowRef, ref } from "vue";
 import { useAuth0 } from "@auth0/auth0-vue";
 import PostService from "../PostService";
+import { watch } from "vue";
 
 const { edit, currentRecipe, reload } = defineProps({
   edit: {
@@ -151,6 +170,21 @@ const prep_time = ref(currentRecipe.prepTime || 0);
 const { user } = useAuth0();
 const error = ref("");
 const attemptedSubmit = ref(false);
+const showSnackbar = ref(false);
+const snackbarMessage = ref("");
+
+
+
+watch(dialog, (val) => {
+  if (val) {
+    title.value = currentRecipe.title || "";
+    ingredients.value = currentRecipe.ingredients || "";
+    instructions.value = currentRecipe.steps || "";
+    public_post.value = currentRecipe.public || false;
+    prep_time.value = currentRecipe.prepTime || 0;
+    attemptedSubmit.value = false;
+  }
+});
 
 function isFormValid() {
   return (
@@ -163,12 +197,6 @@ function isFormValid() {
 
 function closeDialog() {
   dialog.value = false;
-  title.value = currentRecipe.title || "";
-  ingredients.value = currentRecipe.ingredients || "";
-  instructions.value = currentRecipe.steps || "";
-  public_post.value = currentRecipe.public || false;
-  prep_time.value = currentRecipe.prepTime || 0;
-  attemptedSubmit.value = false;
 }
 
 const addRecipe = async () => {
@@ -185,6 +213,8 @@ const addRecipe = async () => {
       };
       closeDialog();
       await PostService.insertPost(recipe);
+      snackbarMessage.value = "Recipe added successfully!";
+      showSnackbar.value = true;
       reload();
     } catch (err) {
       error.value = err.message;
@@ -207,7 +237,9 @@ const updateRecipe = async () => {
         public: public_post.value,
       };
       closeDialog();
-      await PostService.updatePost(currentRecipe._id, recipe);
+      await PostService.updatePost(currentRecipe._id, recipe); 
+      snackbarMessage.value = "Recipe updated successfully!";
+      showSnackbar.value = true;
       reload();
     } catch (err) {
       error.value = err.message;

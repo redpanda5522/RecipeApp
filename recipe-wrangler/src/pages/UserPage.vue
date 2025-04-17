@@ -2,11 +2,15 @@
   <div class="fill-height d-flex flex-column">
     <v-layout>
       <!-- Main App Bar -->
-      <!-- Main App Bar -->
-      <v-app-bar color="primary"  elevation="4" class="px-4 primary_background">
+      <v-app-bar color="primary" elevation="4" class="px-4 primary_background">
         <!-- Nav Icon -->
         <template v-slot:prepend>
-          <v-app-bar-nav-icon class="hover-opacity" />
+          <img
+            src="./../assets/recipe-outline.png"
+            alt="Logo"
+            class="mr-0"
+            style="height: 36px; cursor: pointer; color: white"
+          />
         </template>
 
         <!-- Logo + Title -->
@@ -27,9 +31,7 @@
           class="d-flex align-center justify-space-between px-6 py-2 elevation-2 rounded-b primary_background_light"
         >
           <!-- Label + Add Button -->
-          <div
-            class="d-flex align-center text-subtitle-1 font-weight-medium"
-          >
+          <div class="d-flex align-center text-subtitle-1 font-weight-medium">
             <v-icon class="mr-4">mdi-book-open-variant-outline</v-icon>
             <h4>My Recipes</h4>
           </div>
@@ -97,8 +99,11 @@
                         </v-btn>
                       </RecipeDialog>
 
-                      <DeleteButton :reload="updateFeed" :recipe-id="post._id" />
-
+                      <DeleteButton
+                        :snackbar="showSuccess"
+                        :reload="updateFeed"
+                        :recipe-id="post._id"
+                      />
                     </div>
                   </div>
 
@@ -124,7 +129,7 @@
 
                       <v-sheet color="#f9f9f9" class="pa-3 rounded">
                         <div class="d-flex align-center mb-2">
-                          <v-icon class="mr-2" style="color:#02c3bd"
+                          <v-icon class="mr-2" style="color: #02c3bd"
                             >mdi-format-list-bulleted</v-icon
                           >
                           <span class="text-subtitle-1 font-weight-bold"
@@ -142,6 +147,17 @@
         </div>
       </v-main>
     </v-layout>
+    <v-snackbar
+      v-model="showSnackbar"
+      location="bottom right"
+      :timeout="3000"
+      color="success"
+      rounded="lg"
+      class="text-center"
+    >
+      <v-icon class="mr-2">mdi-check</v-icon>
+      <span>Successfully deleted recipe!</span>
+    </v-snackbar>
   </div>
 </template>
 
@@ -156,9 +172,9 @@ import PostService from "../PostService";
 
 const { user } = useAuth0();
 const posts = ref([]);
-const selectedNumber = ref(5);
 const error = ref("");
 const expandedRecipeId = ref(null);
+const showSnackbar = ref(false);
 
 const toggleExpand = (id) => {
   expandedRecipeId.value = expandedRecipeId.value === id ? null : id;
@@ -171,6 +187,10 @@ const updateFeed = async () => {
     error.value = err.message;
     console.error("Error fetching posts:", err);
   }
+};
+
+const showSuccess = async () => {
+  showSnackbar.value = true;
 };
 
 onMounted(updateFeed);

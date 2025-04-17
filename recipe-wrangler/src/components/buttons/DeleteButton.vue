@@ -5,7 +5,7 @@
 <script setup>
 import PostService from "./../../PostService";
 
-const {recipeId, reload} = defineProps({
+const {recipeId, reload, snackbar} = defineProps({
   recipeId: {
     type: String,
     default: "",
@@ -14,11 +14,15 @@ const {recipeId, reload} = defineProps({
   reload: {
     type: Function,
     required: true
+  },
+  snackbar: {
+    type: Function,
   }
 });
 
 const deleteRecipe = async () => {
   try {
+    snackbar();
     await PostService.deletePost(recipeId);
     reload();
   } catch (err) {

@@ -5,7 +5,12 @@
       <v-app-bar color="primary" dark elevation="4" class="px-4">
         <!-- Nav Icon -->
         <template v-slot:prepend>
-          <v-app-bar-nav-icon class="hover-opacity" />
+          <img
+            src="./../assets/recipe-outline.png"
+            alt="Logo"
+            class="mr-0"
+            style="height: 36px; cursor: pointer; color: white"
+          />
         </template>
 
         <!-- Logo + Title -->

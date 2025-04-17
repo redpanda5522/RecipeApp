@@ -12,20 +12,8 @@ import { aliases, mdi } from "vuetify/iconsets/mdi";
 import "./style.css"
 
 // TODO
-// - Frontend appearance
-// - Toastrs
-// - css colors
 // - Rename database, oauth etc
 // - load up database with example data
-
-
-// const customTheme = {
-//   colors: {
-//     background: '#ffdfd5',
-//     primary: '#FA5F2F',
-//     secondary: '#76C177',
-//   },
-// }
 
 // Vuetify setup
 const vuetify = createVuetify({
