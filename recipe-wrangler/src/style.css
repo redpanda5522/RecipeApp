@@ -1,0 +1,19 @@
+.primary_background {
+  background-color: #337790;
+}
+
+.secondary_background {
+  background-color: #02c3bd;
+}
+
+.primary_background_light {
+  background-color: #99c7d9;
+}
+
+.secondary_background_light {
+  background-color: #81d8a8;
+}
+
+.primary_text {
+  color: black;
+}
